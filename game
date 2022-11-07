@@ -1,0 +1,30 @@
+diceroll () { rollvar=$(( $RANDOM % 24 +1 ))
+}
+
+#get amount of memory in mb 
+
+getmem () { free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p'
+}
+
+
+echo -e "\033[5m-----Game Begins-----\033[0m"
+sleep 3 
+
+select character in "wizzard" "rogue" "knight" "peasant"
+do
+        echo "You selected:" $character
+        if [ $character == "wizzard" ]; then
+        echo "Yer a  wizzard Harry"
+        echo  "You have mana"
+         getmem
+        elif [ $character == "peasant" ]; then
+        diceroll
+                if [ $rollvar -le 12 ]; then
+                echo "You died of dysentery"
+                exec bash "$0" "$@"
+                fi
+        fi
+done
+
+read echo  "name your character:" name
+
